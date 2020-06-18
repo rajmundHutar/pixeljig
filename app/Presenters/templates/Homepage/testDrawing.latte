@@ -1,0 +1,21 @@
+{block content}
+    <h1 class="title is-1">Test</h1>
+
+    <div id="sheet-container">
+        <canvas id="sheet" width="600" height="400"></canvas>
+    </div>
+
+{/block}
+
+{block scripts}
+    {include parent}
+    <script n:syntax="double">
+
+        var canvas = new fabric.Canvas('sheet');
+        canvas.isDrawingMode = true;
+        canvas.freeDrawingBrush.width = 4;
+        canvas.freeDrawingBrush.color = "#000000";
+
+    </script>
+
+{/block}

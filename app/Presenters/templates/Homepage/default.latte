@@ -1,0 +1,43 @@
+{block content}
+{form userForm}
+
+	<div class="field">
+		{label name, class => 'label'/}
+		<div class="control">
+			{input name, class => 'input'}
+		</div>
+	</div>
+
+	<div class="field">
+		<div class="control">
+			{input ok, class => 'button is-link'}
+		</div>
+	</div>
+
+{/form}
+
+{if $displayAdminLogin}
+	{form userForm}
+
+		<div class="field">
+			{label name, class => 'label'/}
+			<div class="control">
+				{input name, class => 'input'}
+			</div>
+		</div>
+
+		<div class="field">
+			{label pass, class => 'label'/}
+			<div class="control">
+				{input pass, class => 'input'}
+			</div>
+		</div>
+
+		<div class="field">
+			<div class="control">
+				{input ok, class => 'button is-link'}
+			</div>
+		</div>
+
+	{/form}
+{/if}

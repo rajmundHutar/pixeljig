@@ -1,0 +1,76 @@
+{block content}
+    <h1 class="title is-1">{$game['name']}</h1>
+
+    {if $drawing['word'] ?? null}
+
+        <h2 class="title is-2">Namaluj: {$drawing['word']}</h2>
+
+        <div class="title is-2" id="countdown"></div>
+
+        <div id="sheet-container">
+            <canvas id="sheet" width="600" height="400"></canvas>
+        </div>
+
+    {else}
+
+        <p>Načítá se další otázka</p>
+
+        <script>
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
+        </script>
+
+    {/if}
+
+
+{/block}
+
+{block scripts}
+    {include parent}
+    <script n:syntax="double">
+        var canvas = new fabric.Canvas('sheet');
+        canvas.isDrawingMode = true;
+        canvas.freeDrawingBrush.width = 4;
+        canvas.freeDrawingBrush.color = "#000000";
+
+        var maxTime = 60;
+        var startDate = new Date();
+
+
+        var interval = setInterval(function() {
+
+            var endDate = new Date();
+            var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
+
+            var remains = maxTime - seconds;
+
+            if (remains <= 0) {
+                clearInterval(interval);
+                sendImage();
+            }
+
+            remains = Math.max(remains, 0);
+
+            document.getElementById('countdown').innerText = Number(remains).toFixed(2) + 's';
+
+        }, 100);
+
+
+        function sendImage() {
+            var data = canvas.toDataURL( {format: 'png' })
+            $.ajax({
+                type: "POST",
+                url: {{plink drawingSubmit!}},
+                data: {
+                    id: {{$drawing['id']}},
+                    image: data,
+                },
+                success: () => {
+                    window.location = {{plink drawing}}
+                },
+            });
+        }
+    </script>
+
+{/block}

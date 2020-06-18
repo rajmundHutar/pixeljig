@@ -1,0 +1,30 @@
+{block content}
+<h1 class="title is-1">{$game['name']}</h1>
+
+
+<h2 class="title is-2">Pravidla hry:</h2>
+<ul>
+    <li>- Hraje se na 3 kola</li>
+    <li>- V prvním kole namaluješ tři obrázky dle popisku. Na každý obrázek máš 60s.</li>
+    <li>- V druhém kole budeš navrhovat odpovědni k obrázkům ostatích (asi 6). Na každý máš 30s.</li>
+    <li>- Ve třetím kole uvidíš všechny obrázky a budeš hádat jaký popisek patří k nakreslenému obrázku. Na každý budeš mít 15s.</li>
+    <li>Body:</li>
+    <li>- 3b pokud někdo uhodne správný popisek k tvému obrázku</li>
+    <li>- 2b pokud někdo uhodne tvůj špatný popisek k cizímu obrázku</li>
+    <li>- 1b Pokud uhodnš správný popisek k cizímu obrázku</li>
+    <li>- 0b Popisek ke svému obrázku; tvůj špatný popisek k cizímu obrázku.</li>
+</ul>
+
+
+<h2 class="title is-2">Přihlášení hráči:</h2>
+<ul>
+    <li n:foreach="$gameUsers as $gu">
+        <strong n:tag-if="$gu->ref('user')->id == $user->getId()">{$gu->ref('user')->name}</strong>
+    </li>
+</ul>
+
+<script>
+    setTimeout(function() {
+        location.reload();
+    }, 1000);
+</script>

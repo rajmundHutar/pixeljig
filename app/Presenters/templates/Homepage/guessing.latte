@@ -1,0 +1,68 @@
+{block content}
+    <h1 class="title is-1">{$game['name']}</h1>
+
+    {if $guessDrawing && !$userGuess}
+
+        <div class="title is-2" id="countdown"></div>
+
+        <div id="sheet-container">
+            <img src="{$baseUrl}{$guessDrawing['image']}" width="600" height="400">
+        </div>
+
+        {form guessForm}
+
+            <div class="field">
+                <div class="control">
+                    {label guess}
+                        {input guess}
+                    {/label}
+                </div>
+            </div>
+
+        {/form}
+
+
+    {else}
+
+        <p>Načítá se další otázka</p>
+
+        <script>
+            setTimeout(function() {
+                location.reload();
+            }, 1000);
+        </script>
+
+    {/if}
+
+
+{/block}
+
+{block scripts}
+    {include parent}
+    <script n:syntax="double">
+        var maxTime = 15;
+        var startDate = new Date();
+
+        var interval = setInterval(function() {
+
+            var endDate = new Date();
+            var seconds = (endDate.getTime() - startDate.getTime()) / 1000;
+
+            var remains = maxTime - seconds;
+
+            if (remains <= 0) {
+
+                clearInterval(interval);
+                document.getElementById('frm-guessForm').submit()
+
+            }
+
+            remains = Math.max(remains, 0);
+
+            document.getElementById('countdown').innerText = Number(remains).toFixed(2) + 's';
+
+        }, 100);
+
+    </script>
+
+{/block}

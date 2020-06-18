@@ -1,0 +1,46 @@
+{block content}
+<h1 class="title is-1">{$game['name']}</h1>
+
+<h2 class="title is-2">Konec hry</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Pořadí</th>
+        <th>Jméno</th>
+        <th>Body</th>
+    </tr>
+    </thead>
+    <tbody>
+        {var $i = 0}
+        {var $lastPoints = null}
+        <tr n:foreach="$results as $row">
+            {if $row['points'] != $lastPoints}
+                {var $i += 1}
+            {/if}
+            {var $lastPoints = $row['points']}
+            <td>{$i}.</td>
+            <td>{$row['name']}</td>
+            <td>{$row['points']}</td>
+        </tr>
+    </tbody>
+</table>
+
+{if $suggestions}
+    <h3 class="title is-3">Obrázky:</h3>
+    <div>
+        <div n:foreach="$suggestions as $suggestion">
+            <a data-fslightbox href="{$baseUrl}{$suggestion['image']}">
+                <img src="{$baseUrl}{$suggestion['image']}" width="60" height="40">
+            </a>
+            Autor :{$suggestion['author']}<br>
+            <p n:foreach="$suggestion['suggestions'] as $tip">
+                {if $tip['correct']}
+                    Správně:
+                {else}
+                    {$tip['name'] ?: 'Počítač'}:
+                {/if} {$tip['word']}
+            </p>
+        </div>
+    </div>
+{/if}

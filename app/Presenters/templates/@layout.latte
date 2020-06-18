@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+	<link rel="stylesheet" href="{$baseUrl}/main.css">
+
+	<title>{ifset title}{include title|stripHtml} | {/ifset}PicBrother</title>
+</head>
+
+<body>
+	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+
+	<section class="section">
+		<div class="container">
+			{include content}
+		</div>
+	</section>
+
+	{block scripts}
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
+		<script src="{$baseUrl}/js/fslightbox.js"></script>
+		<script src="{$baseUrl}/fabric.min.js"></script>
+	{/block}
+</body>
+</html>

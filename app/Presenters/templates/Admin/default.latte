@@ -1,0 +1,78 @@
+{block content}
+<h1 class="title is-1">Administrace</h1>
+
+<h3 class="title is-3">Status: {$game['state']}</h3>
+
+<div>
+
+    {if $game['state'] === App\Models\GameModel::STATE_LOGIN}
+        <a n:href="start!">Start game</a>
+    {/if}
+
+    {if $game['state'] === App\Models\GameModel::STATE_DRAWING}
+        <a n:href="endDrawing!">End drawing</a>
+    {/if}
+
+    {if $game['state'] === App\Models\GameModel::STATE_SUGGESTING}
+        <a n:href="endSuggesting!">End suggesting</a>
+    {/if}
+
+    {if $game['state'] === App\Models\GameModel::STATE_GUESSING}
+        <a n:href="nextGuess!">Next guess</a>
+    {/if}
+
+</div>
+<br>
+<br>
+<br>
+
+{if $guessDrawing}
+
+    {var $correctWord = null}
+    {foreach $guessDrawing['guesses'] as $guess}
+        {if $guess['correct']}
+            {var $correctWord = $guess['word']}
+        {/if}
+    {/foreach}
+
+    <h3 class="title is-3">Hádáme:</h3>
+    <img src="{$baseUrl}{$guessDrawing['image']}">
+    <h4>Správně: {$correctWord}</h4>
+    {foreach $guessAnswers as $answer}
+        {$answer['name']} - {$answer['word']}<br>
+    {/foreach}
+{/if}
+
+<h3 class="title is-3">Hráči:</h3>
+<ul>
+    <li n:foreach="$gameUsers as $gu">
+        {$gu['name']}
+        {if $gu['id'] == $user->getId()}
+            <- tohle seš ty!
+        {/if}
+
+        {foreach $gu['drawings'] as $drawing}
+
+            {$drawing['id']}:
+            {if $drawing['image']}
+                <img src="{$baseUrl}/{$drawing['image']}" width="60" height="40" title="{$drawing['word']}">
+            {else}
+                {$drawing['word']}
+            {/if}
+
+        {/foreach}
+
+    </li>
+</ul>
+
+{if $suggestions}
+    <h3 class="title is-3">Suggestions:</h3>
+    <div>
+        <div n:foreach="$suggestions as $suggestion">
+                <img src="{$baseUrl}{$suggestion['image']}" width="60" height="40">
+                <p n:foreach="$suggestion['suggestions'] as $tip">
+                    User: {if $tip['correct']} OK {else} {$tip['user']} {$tip['name']} {/if} - {$tip['word']}
+                </p>
+        </div>
+    </div>
+{/if}
